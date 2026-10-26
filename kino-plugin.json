@@ -1,6 +1,6 @@
 {
   "manifest_version": 1,
-  "id": "tmdb-catalog-mx",
+  "id": "En-donde-ver",
   "name": "TMDB Catálogo y Disponibilidad",
   "version": "1.0.0",
   "description": "Busca películas y series en TMDB, muestra disponibilidad en streaming (prioridad México y otros países) y abre en app oficial.",
@@ -8,7 +8,7 @@
   "entrypoint": "plugin.js",
   "settings": [
     {
-      "id": "tmdb_api_key",
+      "id": "En-donde-ver",
       "type": "text",
       "label": "API Key de TMDB",
       "default": "9d185627a7959b27ea6c2b6acfe308a1"
