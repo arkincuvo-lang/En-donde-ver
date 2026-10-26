@@ -9,14 +9,7 @@
     "api.themoviedb.org",
     "image.tmdb.org"
   ],
-  "capabilities": [
-    "search",
-    "home",
-    "browse",
-    "episodes",
-    "resolve",
-    "download"
-  ],
+"capabilities": ["search", "resolve"]
   "settings": [
     {
       "key": "tmdb_api_key",
