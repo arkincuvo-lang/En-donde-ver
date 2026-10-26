@@ -12,14 +12,4 @@
   "capabilities": [
     "search",
     "resolve"
-  ],
-  "settings": [
-    {
-      "key": "tmdb_api_key",
-      "label": "API Key de TMDB",
-      "type": "text",
-      "default": "9d185627a7959b27ea6c2b6acfe308a1",
-      "hint": "Ingresa tu clave de TMDB"
-    }
-  ]
-}
+  }
