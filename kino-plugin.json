@@ -10,8 +10,7 @@
     "image.tmdb.org"
   ],
   "capabilities": [
-    "search",
-    "resolve"
+    "search"
   ],
   "settings": [
     {
