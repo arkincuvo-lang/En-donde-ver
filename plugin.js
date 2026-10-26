@@ -1,6 +1,10 @@
-// Plugin de Kino TV con TMDB
+/**
+ * Plugin de TMDB para Kino TV
+ */
 
-async function search(query, settings) {
+// Función principal de catálogo y búsqueda
+async function catalog(params, settings) {
+    const query = params && params.query ? params.query : "";
     const apiKey = (settings && settings.tmdb_api_key && settings.tmdb_api_key !== "9d185627a7959b27ea6c2b6acfe308a1") 
         ? settings.tmdb_api_key 
         : "";
@@ -8,10 +12,14 @@ async function search(query, settings) {
     if (!apiKey) {
         return [{
             id: "error-key",
-            title: "Configura tu API Key de TMDB en los ajustes",
+            title: "Configura tu API Key de TMDB",
             description: "Ve a los ajustes del plugin e ingresa tu llave de TMDB.",
             url: "https://www.themoviedb.org/"
         }];
+    }
+
+    if (!query) {
+        return [];
     }
 
     const encodedQuery = encodeURIComponent(query);
@@ -37,7 +45,6 @@ async function search(query, settings) {
             const poster = item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : '';
             const overview = item.overview || 'Sin sinopsis disponible.';
 
-            // Consultar disponibilidad en streaming (Watch Providers)
             let availabilityText = 'No disponible en línea';
             try {
                 const providersUrl = `https://api.themoviedb.org/3/${item.media_type}/${id}/watch/providers?api_key=${apiKey}`;
@@ -72,7 +79,7 @@ async function search(query, settings) {
                     availabilityText = `Disponible en: ${streamingInfo.join(', ')}`;
                 }
             } catch (e) {
-                // Continuar si falla la red de proveedores
+                // Silenciar errores de red secundarios
             }
 
             const externalLink = `https://www.themoviedb.org/${item.media_type}/${id}`;
@@ -96,4 +103,9 @@ async function search(query, settings) {
             url: "https://www.themoviedb.org/"
         }];
     }
+}
+
+// Exportar para el motor de Kino
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { catalog };
 }
