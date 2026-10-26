@@ -1,6 +1,5 @@
 // Plugin de Kino TV con TMDB
 
-// 1. Función de Búsqueda (search)
 async function search(query, settings) {
     const apiKey = (settings && settings.tmdb_api_key && settings.tmdb_api_key !== "9d185627a7959b27ea6c2b6acfe308a1") 
         ? settings.tmdb_api_key 
@@ -73,7 +72,7 @@ async function search(query, settings) {
                     availabilityText = `Disponible en: ${streamingInfo.join(', ')}`;
                 }
             } catch (e) {
-                // Si falla la consulta de proveedores, continúa con los datos básicos
+                // Continuar si falla la red de proveedores
             }
 
             const externalLink = `https://www.themoviedb.org/${item.media_type}/${id}`;
@@ -97,18 +96,4 @@ async function search(query, settings) {
             url: "https://www.themoviedb.org/"
         }];
     }
-}
-
-// 2. Función de Resolución (resolve)
-async function resolve(item, settings) {
-    // Retorna el enlace directo para abrir externamente
-    return {
-        url: item.url || "https://www.themoviedb.org/",
-        isExternal: true
-    };
-}
-
-// Exportar ambas funciones requeridas por Kino
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { search, resolve };
 }
