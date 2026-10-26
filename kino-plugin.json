@@ -9,8 +9,7 @@
     "api.themoviedb.org",
     "image.tmdb.org"
   ],
-"capabilities": ["catalog", "resolve"
-  ],
+"capabilities": ["catalog", "resolve"],
   "settings": [
     {
       "id": "tmdb_api_key",
