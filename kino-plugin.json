@@ -1,10 +1,10 @@
 {
-  "id": "tmdb-catalog-mx",
-  "name": "TMDB Catálogo y Disponibilidad",
-  "version": "1.0.0",
+  "id": "kino-donde-ver",
+  "name": "Donde Ver MX",
+  "version": "0.2.4",
   "apiVersion": 1,
-  "entry": "plugin.js",
-  "description": "Busca películas y series en TMDB, muestra disponibilidad en streaming (México y otros países) y abre en app oficial.",
+  "entry": "plugin2.js",
+  "description": "Dice donde ver en Disney+ y Prime Video",
   "hosts": ["api.themoviedb.org", "image.tmdb.org"],
   "capabilities": ["search", "resolve"]
 }
