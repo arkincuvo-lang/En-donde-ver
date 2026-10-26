@@ -11,6 +11,7 @@
   ],
   "capabilities": [
     "search",
+    "resolve",
   ],
   "settings": [
     {
