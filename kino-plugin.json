@@ -10,12 +10,12 @@
     "image.tmdb.org"
   ],
   "capabilities": ["search", "resolve"],
-  "settings": [
+"settings": [
     {
-      "id": "tmdb_api_key",
-      "type": "text",
-      "label": "API Key de TMDB",
-      "default": "9d185627a7959b27ea6c2b6acfe308a1"
+      "name": "tmdb_api_key",
+      "title": "API Key de TMDB",
+      "type": "string",
+      "default": "TU_API_KEY_AQUI"
     }
   ]
 }
