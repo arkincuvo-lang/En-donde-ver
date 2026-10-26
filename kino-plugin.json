@@ -10,7 +10,12 @@
     "image.tmdb.org"
   ],
   "capabilities": [
-    "catalog"
+    "search",
+    "home",
+    "browse",
+    "episodes",
+    "resolve",
+    "download"
   ],
   "settings": [
     {
