@@ -9,9 +9,7 @@
     "api.themoviedb.org",
     "image.tmdb.org"
   ],
-  "capabilities": [
-    "search"
-  ],
+  "capabilities": ["search"],
   "settings": [
     {
       "id": "tmdb_api_key",
