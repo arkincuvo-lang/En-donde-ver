@@ -6,4 +6,4 @@
   "entry": "plugin.js",
   "description": "Busca películas y series en TMDB, muestra disponibilidad en streaming (México y otros países) y abre en app oficial.",
   "hosts": ["api.themoviedb.org","image.tmdb.org"],
-  "capabilities": ["catalog", "resolve"],
+  "capabilities": ["search", "resolve"]
