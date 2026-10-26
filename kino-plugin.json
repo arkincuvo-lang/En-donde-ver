@@ -9,7 +9,5 @@
     "api.themoviedb.org",
     "image.tmdb.org"
   ],
-  "capabilities": [
-    "search",
-    "resolve"
-  }
+  "capabilities": ["search"]
+}
