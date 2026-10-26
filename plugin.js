@@ -1,10 +1,17 @@
-async function searchCatalog(query, settings) {
-    const apiKey = settings && settings.tmdb_api_key ? settings.tmdb_api_key : "TU_API_KEY_AQUI";
-    
-    if (!apiKey || apiKey === "TU_API_KEY_AQUI") {
-        return [{ 
-            title: "Error: Configura tu API Key de TMDB en los ajustes del plugin.", 
-            url: "" 
+// Plugin de Kino TV con TMDB
+
+// 1. Función de Búsqueda (search)
+async function search(query, settings) {
+    const apiKey = (settings && settings.tmdb_api_key && settings.tmdb_api_key !== "TU_API_KEY_AQUI") 
+        ? settings.tmdb_api_key 
+        : "";
+
+    if (!apiKey) {
+        return [{
+            id: "error-key",
+            title: "Configura tu API Key de TMDB en los ajustes",
+            description: "Ve a los ajustes del plugin e ingresa tu llave de TMDB.",
+            url: "https://www.themoviedb.org/"
         }];
     }
 
@@ -31,44 +38,50 @@ async function searchCatalog(query, settings) {
             const poster = item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : '';
             const overview = item.overview || 'Sin sinopsis disponible.';
 
-            // Consultar proveedores de streaming
-            const providersUrl = `https://api.themoviedb.org/3/${item.media_type}/${id}/watch/providers?api_key=${apiKey}`;
-            const provResponse = await fetch(providersUrl);
-            const provData = await provResponse.json();
+            // Consultar disponibilidad en streaming (Watch Providers)
+            let availabilityText = 'No disponible en línea';
+            try {
+                const providersUrl = `https://api.themoviedb.org/3/${item.media_type}/${id}/watch/providers?api_key=${apiKey}`;
+                const provResponse = await fetch(providersUrl);
+                const provData = await provResponse.json();
 
-            let streamingInfo = [];
+                let streamingInfo = [];
 
-            if (provData.results) {
-                // 1. Proveedores en México (MX)
-                const mxData = provData.results['MX'];
-                if (mxData && mxData.flatrate && mxData.flatrate.length > 0) {
-                    mxData.flatrate.forEach(p => {
-                        streamingInfo.push(`${p.provider_name} (MX)`);
-                    });
-                }
+                if (provData.results) {
+                    // Prioridad México (MX)
+                    const mxData = provData.results['MX'];
+                    if (mxData && mxData.flatrate && mxData.flatrate.length > 0) {
+                        mxData.flatrate.forEach(p => {
+                            streamingInfo.push(`${p.provider_name} (MX)`);
+                        });
+                    }
 
-                // 2. Si no hay en México, buscar en otros países
-                if (streamingInfo.length === 0) {
-                    for (const [countryCode, cData] of Object.entries(provData.results)) {
-                        if (cData.flatrate && cData.flatrate.length > 0) {
-                            cData.flatrate.forEach(p => {
-                                streamingInfo.push(`${p.provider_name} (${countryCode})`);
-                            });
-                            break; 
+                    // Si no hay en México, buscar en otros países
+                    if (streamingInfo.length === 0) {
+                        for (const [countryCode, cData] of Object.entries(provData.results)) {
+                            if (cData.flatrate && cData.flatrate.length > 0) {
+                                cData.flatrate.forEach(p => {
+                                    streamingInfo.push(`${p.provider_name} (${countryCode})`);
+                                });
+                                break;
+                            }
                         }
                     }
                 }
-            }
 
-            let availabilityText = streamingInfo.length > 0 
-                ? `Disponible en: ${streamingInfo.join(', ')}` 
-                : 'No disponible en línea';
+                if (streamingInfo.length > 0) {
+                    availabilityText = `Disponible en: ${streamingInfo.join(', ')}`;
+                }
+            } catch (e) {
+                // Si falla la consulta de proveedores, continúa con los datos básicos
+            }
 
             const externalLink = `https://www.themoviedb.org/${item.media_type}/${id}`;
 
             items.push({
+                id: `${item.media_type}-${id}`,
                 title: `${title} (${year}) - ⭐ ${vote}`,
-                description: `${availabilityText}\n\nSinopsis: ${overview}`,
+                description: `${availabilityText}\n\n${overview}`,
                 image: poster,
                 url: externalLink,
                 isExternal: true
@@ -77,10 +90,25 @@ async function searchCatalog(query, settings) {
 
         return items;
     } catch (error) {
-        return [{ 
-            title: "Error al conectar con TMDB", 
-            description: error.toString(), 
-            url: "" 
+        return [{
+            id: "error-fetch",
+            title: "Error al conectar con TMDB",
+            description: error.toString(),
+            url: "https://www.themoviedb.org/"
         }];
     }
+}
+
+// 2. Función de Resolución (resolve)
+async function resolve(item, settings) {
+    // Retorna el enlace directo para abrir externamente
+    return {
+        url: item.url || "https://www.themoviedb.org/",
+        isExternal: true
+    };
+}
+
+// Exportar ambas funciones requeridas por Kino
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { search, resolve };
 }
