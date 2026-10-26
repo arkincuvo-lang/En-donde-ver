@@ -1,9 +1,11 @@
-// Plugin de Kino TV con TMDB (Prioridad México + Proveedores Internacionales + Enlaces Externos)
-
 async function searchCatalog(query, settings) {
-    const apiKey = settings.tmdb_api_key;
-    if (!apiKey) {
-        return [{ title: "Error: Falta configurar la API Key de TMDB en los ajustes.", url: "" }];
+    const apiKey = settings && settings.tmdb_api_key ? settings.tmdb_api_key : "TU_API_KEY_AQUI";
+    
+    if (!apiKey || apiKey === "TU_API_KEY_AQUI") {
+        return [{ 
+            title: "Error: Configura tu API Key de TMDB en los ajustes del plugin.", 
+            url: "" 
+        }];
     }
 
     const encodedQuery = encodeURIComponent(query);
@@ -29,7 +31,7 @@ async function searchCatalog(query, settings) {
             const poster = item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : '';
             const overview = item.overview || 'Sin sinopsis disponible.';
 
-            // Consultar proveedores de streaming (Watch Providers) para este contenido
+            // Consultar proveedores de streaming
             const providersUrl = `https://api.themoviedb.org/3/${item.media_type}/${id}/watch/providers?api_key=${apiKey}`;
             const provResponse = await fetch(providersUrl);
             const provData = await provResponse.json();
@@ -37,7 +39,7 @@ async function searchCatalog(query, settings) {
             let streamingInfo = [];
 
             if (provData.results) {
-                // 1. Revisar disponibilidad en México (MX) - Prioridad plana de streaming (flatrate)
+                // 1. Proveedores en México (MX)
                 const mxData = provData.results['MX'];
                 if (mxData && mxData.flatrate && mxData.flatrate.length > 0) {
                     mxData.flatrate.forEach(p => {
@@ -45,14 +47,14 @@ async function searchCatalog(query, settings) {
                     });
                 }
 
-                // 2. Si no hay en México, buscar en otros países disponibles (ej. USA, ES, etc.)
+                // 2. Si no hay en México, buscar en otros países
                 if (streamingInfo.length === 0) {
                     for (const [countryCode, cData] of Object.entries(provData.results)) {
                         if (cData.flatrate && cData.flatrate.length > 0) {
                             cData.flatrate.forEach(p => {
                                 streamingInfo.push(`${p.provider_name} (${countryCode})`);
                             });
-                            break; // Tomar el primer país alternativo con opciones para no saturar
+                            break; 
                         }
                     }
                 }
@@ -60,23 +62,25 @@ async function searchCatalog(query, settings) {
 
             let availabilityText = streamingInfo.length > 0 
                 ? `Disponible en: ${streamingInfo.join(', ')}` 
-                : 'No disponible en línea (Solo ficha técnica)';
+                : 'No disponible en línea';
 
-            // Enlace oficial hacia TMDB para abrirse externamente
             const externalLink = `https://www.themoviedb.org/${item.media_type}/${id}`;
 
             items.push({
                 title: `${title} (${year}) - ⭐ ${vote}`,
                 description: `${availabilityText}\n\nSinopsis: ${overview}`,
                 image: poster,
-                // Forzar apertura en aplicación externa / navegador del sistema y evitar reproductor interno
                 url: externalLink,
-                isExternal: true 
+                isExternal: true
             });
         }
 
         return items;
     } catch (error) {
-        return [{ title: "Error al conectar con TMDB", description: error.toString(), url: "" }];
+        return [{ 
+            title: "Error al conectar con TMDB", 
+            description: error.toString(), 
+            url: "" 
+        }];
     }
 }
