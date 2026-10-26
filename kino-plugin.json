@@ -9,7 +9,10 @@
     "api.themoviedb.org",
     "image.tmdb.org"
   ],
-"capabilities": ["search", "resolve"]
+"capabilities": [
+  "search", 
+  "resolve"
+]
   "settings": [
     {
       "key": "tmdb_api_key",
