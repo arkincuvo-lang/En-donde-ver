@@ -15,7 +15,7 @@
       "name": "tmdb_api_key",
       "title": "API Key de TMDB",
       "type": "string",
-      "default": "TU_API_KEY_AQUI"
+      "default": "9d185627a7959b27ea6c2b6acfe308a1"
     }
   ]
 }
