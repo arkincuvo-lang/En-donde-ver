@@ -7,8 +7,6 @@
   "description": "Busca películas y series en TMDB, muestra disponibilidad en streaming (México y otros países) y abre en app oficial.",
   "hosts": ["api.themoviedb.org","image.tmdb.org"],
   "capabilities": ["catalog", "resolve"],
-  "settings": [
-    {
       "id": "tmdb_api_key",
       "type": "text",
       "label": "API Key de TMDB",
