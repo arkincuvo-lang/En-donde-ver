@@ -9,13 +9,12 @@
     "api.themoviedb.org",
     "image.tmdb.org"
   ],
-  "capabilities": ["search"],
   "settings": [
     {
       "id": "tmdb_api_key",
       "type": "text",
       "label": "API Key de TMDB",
-      "default": "9d185627a7959b27ea6c2b6acfe308a1I"
+      "default": "9d185627a7959b27ea6c2b6acfe308a1"
     }
   ]
 }
