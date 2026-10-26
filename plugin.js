@@ -2,7 +2,7 @@
 
 // 1. Función de Búsqueda (search)
 async function search(query, settings) {
-    const apiKey = (settings && settings.tmdb_api_key && settings.tmdb_api_key !== "TU_API_KEY_AQUI") 
+    const apiKey = (settings && settings.tmdb_api_key && settings.tmdb_api_key !== "9d185627a7959b27ea6c2b6acfe308a1") 
         ? settings.tmdb_api_key 
         : "";
 
