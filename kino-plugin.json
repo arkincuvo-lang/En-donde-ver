@@ -1,17 +1,18 @@
 {
   "manifest_version": 1,
-  "id": "En-donde-ver",
+  "id": "tmdb-catalog-mx",
   "name": "TMDB Catálogo y Disponibilidad",
   "version": "1.0.0",
+  "apiVersion": 1,
   "description": "Busca películas y series en TMDB, muestra disponibilidad en streaming (prioridad México y otros países) y abre en app oficial.",
   "icon": "https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_1-5bdc75aaebeb75dc7ae79426ddd973b2f1fa083dff4e35d74338c14d34a4fa6d.svg",
   "entrypoint": "plugin.js",
   "settings": [
     {
-      "id": "En-donde-ver",
+      "id": "tmdb_api_key",
       "type": "text",
       "label": "API Key de TMDB",
-      "default": "9d185627a7959b27ea6c2b6acfe308a1"
+      "default": "TU_API_KEY_AQUI"
     }
   ]
 }
